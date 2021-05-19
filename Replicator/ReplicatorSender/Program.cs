@@ -10,6 +10,14 @@ namespace ReplicatorSender
     {
         static void Main(string[] args)
         {
+            ReplicatorSenderServer server = new ReplicatorSenderServer();
+            string tmp = "";
+            while (!tmp.Equals("exit"))
+            {
+                Console.WriteLine("Unesite exit za gasenje programa");
+                tmp = Console.ReadLine();
+                Console.Clear();
+            }
         }
     }
 }

@@ -10,6 +10,15 @@ namespace Logger
     {
         static void Main(string[] args)
         {
+            LogerServer loger = new LogerServer();
+
+            string tmp = "";
+            while (!tmp.Equals("exit"))
+            {
+                Console.WriteLine("Unesite exit za gasenje programa");
+                tmp = Console.ReadLine();
+                Console.Clear();
+            }
         }
     }
 }

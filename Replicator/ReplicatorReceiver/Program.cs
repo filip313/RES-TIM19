@@ -10,6 +10,14 @@ namespace ReplicatorReceiver
     {
         static void Main(string[] args)
         {
+            ReceiverServer server = new ReceiverServer();
+            string tmp = "";
+            while (!tmp.Equals("exit"))
+            {
+                Console.WriteLine("Unesite exit za gasenje programa");
+                tmp = Console.ReadLine();
+                Console.Clear();
+            }
         }
     }
 }

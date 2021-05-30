@@ -4,10 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Common;
+using ReplicatorReceiver.Interfejsi;
 
 namespace ReplicatorReceiver
 {
-    public class ReceiverProperty
+    public class ReceiverProperty : IReceiverProperty
     {
         public CODE Code { get; set; }
         public double ReceiverValue { get; set; }

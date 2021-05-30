@@ -4,12 +4,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Common;
+using ReplicatorReceiver.Interfejsi;
 
 namespace ReplicatorReceiver
 {
-    public class HistoricalCollection
+    public class HistoricalCollection : IHistoricalCollection
     {
-        List<ReceiverProperty> receiverProperties;
+        public List<ReceiverProperty> receiverProperties;
 
         public HistoricalCollection()
         {

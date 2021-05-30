@@ -5,10 +5,11 @@ using System.Text;
 using System.Threading.Tasks;
 using Common;
 using System.ServiceModel;
+using ReplicatorReceiver.Interfejsi;
 
 namespace ReplicatorReceiver
 {
-    public class SenderReceiverServiceProvider : ISenderReceiver
+    public class SenderReceiverServiceProvider : Interfejsi.IServiceProvider, ISenderReceiver 
     {
         public static Dictionary<int, CollectionDescription> collectionDescription = new Dictionary<int, CollectionDescription>();
         public static LogerConnection logerConnection = new LogerConnection();
@@ -42,12 +43,12 @@ namespace ReplicatorReceiver
             }
         }
 
-        private int GenerisiId()
+        public  int GenerisiId()
         {
             return rand.Next(0, 100);
         }
 
-        private DataSet OdrediDataSet(CODE code)
+        public DataSet OdrediDataSet(CODE code)
         {
             int c = (int)code;
             if (c <= 1)
@@ -61,7 +62,8 @@ namespace ReplicatorReceiver
             else if (c > 3 && c <= 5)
             {
                 return DataSet.DATA_SET_3;
-            }else if(c > 5 && c <= 7)
+            }
+            else if (c > 5 && c <= 7)
             {
                 return DataSet.DATA_SET_4;
             }
@@ -70,5 +72,7 @@ namespace ReplicatorReceiver
                 return 0;
             }
         }
+
+        public Dictionary<int, CollectionDescription> GetDict { get { return collectionDescription; } set { collectionDescription = value; } }
     }
 }

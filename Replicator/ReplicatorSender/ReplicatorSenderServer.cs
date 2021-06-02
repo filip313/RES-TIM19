@@ -10,7 +10,7 @@ namespace ReplicatorSender
 {
    public class ReplicatorSenderServer
     {
-        private ServiceHost serviceHost;
+        public ServiceHost serviceHost;
 
         public ReplicatorSenderServer()
         {

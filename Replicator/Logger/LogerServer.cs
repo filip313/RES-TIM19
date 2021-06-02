@@ -10,7 +10,7 @@ namespace Logger
 {
     public class LogerServer
     {
-        private ServiceHost serviceHost;
+        public ServiceHost serviceHost;
         
         public LogerServer()
         {
@@ -31,11 +31,6 @@ namespace Logger
                 Console.WriteLine("Nije moguce otvoriti vezu za prijem podataka.");
             }
             Console.WriteLine("Loger pokernut i ceka podatke za logovanje");
-        }
-
-        ~LogerServer()
-        {
-            serviceHost.Close();
         }
     }
 }

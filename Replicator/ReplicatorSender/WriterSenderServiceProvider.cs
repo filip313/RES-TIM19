@@ -12,9 +12,12 @@ namespace ReplicatorSender
     {
         public static List<Tuple<CODE, double>> buffer = new List<Tuple<CODE, double>>();
         public static Connection connection = new Connection();
-        public void PosaljiNaSender(CODE code, double value)
+        public virtual void PosaljiNaSender(CODE code, double value)
         {
-            buffer.Add(new Tuple<CODE, double>(code, value));
+            lock (Connection.lockObj)
+            {
+                buffer.Add(new Tuple<CODE, double>(code, value));
+            }
             string data = "";
             data += DateTime.Now.ToString();
             data += " Od: Replicator sender primio-" + code + "; VALUE = " + value;

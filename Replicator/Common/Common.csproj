@@ -44,6 +44,8 @@
   <ItemGroup>
     <Compile Include="Enums.cs" />
     <Compile Include="ILoger.cs" />
+    <Compile Include="IReaderBaza.cs" />
+    <Compile Include="IReceiverReader.cs" />
     <Compile Include="ISenderReceiver.cs" />
     <Compile Include="IWriterSenderService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

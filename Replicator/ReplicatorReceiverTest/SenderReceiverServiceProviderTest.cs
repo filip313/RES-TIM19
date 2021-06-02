@@ -17,8 +17,8 @@ namespace ReplicatorReceiverTest
         [Test]
         public void GenerisiIdTest()
         {
-            Mock moq = new Mock<ReplicatorReceiver.Interfejsi.IServiceProvider>();
-            var provider = (ReplicatorReceiver.Interfejsi.IServiceProvider)moq.Object;
+            var moq = new Mock<SenderReceiverServiceProvider>();
+            var provider = moq.Object;
 
             int id = provider.GenerisiId();
             Assert.GreaterOrEqual(id, 0);
@@ -75,11 +75,30 @@ namespace ReplicatorReceiverTest
         [Test]
         public void GetDictTest()
         {
-            Mock moq = new Mock<SenderReceiverServiceProvider>();
+            var moq = new Mock<SenderReceiverServiceProvider>();
             var provider = (SenderReceiverServiceProvider)moq.Object;
 
             var dict = provider.GetDict;
             Assert.NotNull(dict);
+        }
+
+        [Test]
+        public void PosaljiNaReceiver_ImaID_Test()
+        {
+            var moq = new Mock<SenderReceiverServiceProvider>();
+            moq.Setup(o => o.GenerisiId()).Returns(1);
+            var con_moq = new Mock<IReceiverReader>();
+            con_moq.Setup(o => o.PosljiReaderu(It.IsAny<int>(), It.IsAny<Tuple<CODE, double>>()));
+            var service = moq.Object;
+            SenderReceiverServiceProvider.readerConnection.set1Proxy = con_moq.Object;
+            SenderReceiverServiceProvider.readerConnection.set2Proxy = con_moq.Object;
+            SenderReceiverServiceProvider.readerConnection.set3Proxy = con_moq.Object;
+            SenderReceiverServiceProvider.readerConnection.set4Proxy = con_moq.Object;
+
+
+            SenderReceiverServiceProvider.collectionDescription = new Dictionary<int, CollectionDescription> { { 1, new CollectionDescription(1, DataSet.DATA_SET_1 )} };
+
+            Assert.DoesNotThrow(() => service.PosaljiNaReceiver(new Tuple<CODE, double>(CODE.CODE_ANALOG, 123)));
         }
     }
 }

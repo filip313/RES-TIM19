@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Common;
 using System.ServiceModel;
 using ReplicatorReceiver.Interfejsi;
+using System.Diagnostics.CodeAnalysis;
 
 namespace ReplicatorReceiver
 {
@@ -43,7 +44,8 @@ namespace ReplicatorReceiver
             }
         }
 
-        public  int GenerisiId()
+        [ExcludeFromCodeCoverage]
+        public virtual int GenerisiId()
         {
             return rand.Next(0, 100);
         }

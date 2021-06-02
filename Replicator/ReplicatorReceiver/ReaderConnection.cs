@@ -8,19 +8,19 @@ using System.ServiceModel;
 
 namespace ReplicatorReceiver
 {
-    public class ReaderConnection
+    public class ReaderConnection : IReaderConnection
     {
-        private IReceiverReader set1Proxy;
-        private IReceiverReader set2Proxy;
-        private IReceiverReader set3Proxy;
-        private IReceiverReader set4Proxy;
+        public IReceiverReader set1Proxy;
+        public  IReceiverReader set2Proxy;
+        public IReceiverReader set3Proxy;
+        public IReceiverReader set4Proxy;
 
         public ReaderConnection()
         {
             Connect();
         }
 
-        private void Connect()
+        public void Connect()
         {
             var binding = new NetTcpBinding();
             ChannelFactory<IReceiverReader> readerFactory = new ChannelFactory<IReceiverReader>(binding, new EndpointAddress("net.tcp://localhost:9000/ReaderServiceProvider"));

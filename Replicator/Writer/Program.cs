@@ -1,11 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace Writer
 {
+    [ExcludeFromCodeCoverage]
     class Program
     {
         static void Main(string[] args)
@@ -13,6 +16,8 @@ namespace Writer
             int id;
             if(args.Count() == 0)
             {
+                FileStream fs = File.Create("procesi.txt");
+                fs.Close();
                 id = 0;
             }
             else
@@ -26,13 +31,13 @@ namespace Writer
             bool ugasi = false;
             while (!ugasi)
             {
-                if (wc.Id == 0)
-                {
-                    Console.WriteLine("========================= GLAVNI WRITER ================================");
+                
+                
+                    Console.WriteLine("========================= WRITER " + wc.Id + " ================================");
                     Console.WriteLine("1 -> Pokreni novu instancu Writer-a");
                     Console.WriteLine("2 -> Izlistaj aktivne Writer-e");
                     Console.WriteLine("3 -> Ugasi odredjenog Writer-a");
-                    Console.WriteLine("x -> Ugasi glavnu instancu");
+                    Console.WriteLine("x -> Ugasi sebe");
                     key = Console.ReadKey();
                     Console.Clear();
                     switch (key.KeyChar)
@@ -57,17 +62,11 @@ namespace Writer
                             wc.UgasiWritera(tmpId);
                             break;
                         case 'x':
-                            ugasi = wc.Ugasi();
+                            ugasi = true;
                             break;
                     }
-                }
-                else
-                {
-                    Console.WriteLine("=========================WRITER " + wc.Id + "================================");
-                    Console.ReadLine();
-                    Console.Clear();
-                }
             }
+            wc.UgasiWritera(wc.Id);
         }
     }
 }

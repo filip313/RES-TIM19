@@ -13,7 +13,7 @@ namespace ReplicatorSender
     {
         public ILoger logerProxy;
         public ISenderReceiver receiverProxy;
-        private static Mutex mutex = new Mutex();
+        public static object lockObj = new object();
 
         public Connection()
         {
@@ -25,7 +25,7 @@ namespace ReplicatorSender
         {
             var binding = new NetTcpBinding();
             ChannelFactory<ISenderReceiver> receiverFactory = new ChannelFactory<ISenderReceiver>(binding, new EndpointAddress("net.tcp://localhost:8000/SenderReceiverServiceProvider"));
-            //receiverProxy = receiverFactory.CreateChannel();
+            receiverProxy = receiverFactory.CreateChannel();
 
              binding = new NetTcpBinding();
             ChannelFactory<ILoger> logerFactory = new ChannelFactory<ILoger>(binding, new EndpointAddress("net.tcp://localhost:7000/LogerServiceProvider"));
@@ -36,38 +36,38 @@ namespace ReplicatorSender
         {
             while (true)
             {
-                List<Tuple<CODE, double>> lista = WriterSenderServiceProvider.buffer;
-                if(mutex.WaitOne())
+                lock (lockObj)
                 {
-                    if (lista.Count > 0)
-                    {
-                        Tuple<CODE, double> vrednost = lista[0];
-                        lista.RemoveAt(0);
-                        string data = "";
-                        data += DateTime.Now.ToString();
-                        data += " Od: Replicator sender poslao-" + vrednost.Item1 + "; VALUE = " + vrednost.Item2;
-                        try
+                    List<Tuple<CODE, double>> lista = WriterSenderServiceProvider.buffer;
+
+                        if (lista.Count > 0)
                         {
-                            logerProxy.LogData(data);
+                            Tuple<CODE, double> vrednost = lista[0];
+                            lista.RemoveAt(0);
+                            string data = "";
+                            data += DateTime.Now.ToString();
+                            data += " Od: Replicator sender poslao-" + vrednost.Item1 + "; VALUE = " + vrednost.Item2;
                             try
                             {
-                                //receiverProxy.PosaljiNaReceiver(vrednost);
+                                logerProxy.LogData(data);
+                                try
+                                {
+                                    receiverProxy.PosaljiNaReceiver(vrednost);
 
+                                }
+                                catch (Exception)
+                                {
+                                    Console.WriteLine("Nije moguce poslati podatke na Replikator Receiver.");
+                                }
                             }
                             catch (Exception)
                             {
-                                Console.WriteLine("Nije moguce poslati podatke na Replikator Receiver.");
+                                Console.WriteLine("Nije moguce poslati podatke na Loger.");
                             }
                         }
-                        catch (Exception)
-                        {
-                            Console.WriteLine("Nije moguce poslati podatke na Loger.");
-                        }
-                        mutex.ReleaseMutex();
-                    }
+
                 }
-                
-                
+                    
             }
         }
     }

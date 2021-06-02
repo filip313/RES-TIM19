@@ -45,34 +45,34 @@ namespace Writer
 
         private static double GenerisiSource()
         {
-            double ret = gen.NextDouble();
+            double ret = gen.Next();
             if(ret % 2 == 0)
             {
                 ret -= 1;
             }
-            return ret;
+            return (double)ret;
         }
 
         private static double GenerisiConsumer()
         {
-            double ret = gen.NextDouble();
+            double ret = gen.Next();
             if(ret % 2 != 0)
             {
                 ret += 1;
             }
-            return ret;
+            return (double)ret;
         }
 
         private static double GenerisiMulti()
         {
-            double ret = gen.NextDouble();
-            return Math.Pow(ret, 3);
+            double ret = gen.NextDouble()* 1000;
+            return Math.Round(ret, 2);
         }
 
         private static double GenerisiSingle()
         {
             double ret = gen.NextDouble();
-            return Math.Pow(ret, 2);
+            return Math.Round(ret, 2);
         }
 
         private static double GenerisiLimitset()
